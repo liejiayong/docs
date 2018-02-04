@@ -619,4 +619,301 @@ Promise.all 在接收到的所有的对象promise都变为 FulFilled 或者 Reje
 + [Mocha官网](https://mochajs.org/)
 + Mocha是Node.js下的测试框架工具
 
+####Macha-回调函数风格的测试
+
+    //basic-test.js
+    var assert = require('power-assert');
+    describe('Basic Test', function () {
+        context('When Callback(high-order function)', function () {
+            it('should use `done` for test', function (done) {
+                setTimeout(function () {
+                    assert(true);
+                    done();
+                }, 0);
+            });
+        });
+        context('When promise object', function () {
+            it('should use `done` for test?', function (done) {
+                var promise = Promise.resolve(1);
+                // このテストコードはある欠陥があります
+                promise.then(function (value) {
+                    assert(value === 1);
+                    done();
+                });
+            });
+        });
+    });
+    
+###Promise进阶(Advanced)
+
+####Promise的实现类库（Library）
+>ES6 Promise 里关于promise对象的规定包括在使用 catch 方法，或使用 Promise.all 进行处理的时候不能出现错误。
+
+Promises/A+ 是 ES6 Promises 的前身，Promise的 then 也是来自于此的基于社区的规范。
+
+如果说一个类库兼容 Promises/A+ 的话，那么就是说它除了具有标准的 then 方法之外，很多情况下也说明此类库还支持 Promise.all 和 catch 等功能。
+
+但是 Promises/A+ 实际上只是定义了关于 Promise#then 的规范，所以有些类库可能实现了其它诸如 all 或 catch 等功能，但是可能名字却不一样。
+
+如果我们说一个类库具有 then 兼容性的话，实际上指的是 Thenable ，它通过使用 Promise.resolve 基于ES6 Promise的规定，进行promise对象的变换。
+
+####Polyfill和扩展类库
+在这些Promise的实现类库中，我们这里主要对两种类型的类库进行介绍。
+
+>一种是被称为 Polyfill （这是一款英国产品，就是装修刮墙用的腻子，其意义可想而知 — 译者注）的类库，另一种是即具有 Promises/A+兼容性 ，又增加了自己独特功能的类库。
+
+>Promise的实现类库数量非常之多，这里我们只是介绍了其中有限的几个。
+
+1.Polyfill
+
+只需要在浏览器中加载Polyfill类库，就能使用IE10等或者还没有提供对Promise支持的浏览器中使用Promise里规定的方法。
+
+也就是说如果加载了Polyfill类库，就能在还不支持Promise的环境中，运行本文中的各种示例代码。
+
++ [jakearchibald/es6-promise](https://github.com/jakearchibald/es6-promise)
+一个兼容 ES6 Promises 的Polyfill类库。 它基于 RSVP.js 这个兼容 Promises/A+ 的类库， 它只是 RSVP.js 的一个子集，只实现了Promises 规定的 API。
++ [yahoo/ypromise](https://github.com/yahoo/ypromise)
+ 这是一个独立版本的 YUI 的 Promise Polyfill，具有和 ES6 Promises 的兼容性。 本书的示例代码也都是基于这个 ypromise 的 Polyfill 来在线运行的。
++ [getify/native-promise-only](https://github.com/getify/native-promise-only/)
+以作为ES6 Promises的polyfill为目的的类库 它严格按照ES6 Promises的规范设计，没有添加在规范中没有定义的功能。 如果运行环境有原生的Promise支持的话，则优先使用原生的Promise支持。
+
+
+2.Promise扩展类库
+
+Promise扩展类库除了实现了Promise中定义的规范之外，还增加了自己独自定义的功能。
+
+Promise扩展类库数量非常的多，我们只介绍其中两个比较有名的类库。
+
+>Q 和 Bluebird 这两个类库除了都能在浏览器里运行之外，充实的API reference也是其特征。
+
++ [kriskowal/q](https://github.com/kriskowal/q)
+类库 Q 实现了 Promises 和 Deferreds 等规范。 它自2009年开始开发，还提供了面向Node.js的文件IO API Q-IO 等， 是一个在很多场景下都能用得到的类库。
++ [API Reference · kriskowal/q Wiki](https://github.com/kriskowal/q/wiki/API-Reference)
+Q等文档里详细介绍了Q的Deferred和jQuery里的Deferred有哪些异同，以及要怎么进行迁移 Coming from jQuery 等都进行了详细的说明。
+
++ [petkaantonov/bluebird](https://github.com/petkaantonov/bluebird)
+这个类库除了兼容 Promise 规范之外，还扩展了取消promise对象的运行，取得promise的运行进度，以及错误处理的扩展检测等非常丰富的功能，此外它在实现上还在性能问题下了很大的功夫。 
++ [bluebird/API.md at master · petkaantonov/bluebird](https://github.com/petkaantonov/bluebird/blob/master/API.md)
+Bluebird的文档除了提供了使用Promise丰富的实现方式之外，还涉及到了在出现错误时的对应方法以及 Promise中的反模式 等内容。
+
+这两个类库的文档写得都很友好，即使我们不使用这两个类库，阅读一下它们的文档也具有一定的参考价值。
+
+####Promise.resolve和Thenable
+ Promise.resolve 的最大特征之一就是可以将thenable的对象转换为promise对象。现在总结一下利用将thenable对象转换为promise对象这个功能都能具体做些什么事情。下面是案例：
+ 
+ 1.将Web Notifications转换为thenable对象
+ 
+ [桌面通知 API Web Notifications ](https://developer.mozilla.org/ja/docs/Web/API/notification)
+ 
+    使用方法：
+    new Notification("Hi!");
+    
+Notification API 的使用步骤：
+>用户在这个是否允许Notification的对话框选择后的结果，会通过 Notification.permission 传给我们的程序，它的值可能是允许("granted")或拒绝("denied")这二者之一。
+
++ 显示是否允许通知的对话框，并异步处理用户选择结果。resolve(成功)时 == 用户允许("granted")
+
+    + 如果用户允许的话，则通过 new Notification 显示通知消息。这又分两种情况
+
+    + 用户之前已经允许过
+
++ 当场弹出是否允许桌面通知对话框。reject(失败)时 == 用户拒绝("denied")
+
+    + 当用户不允许的时候，不执行任何操作
+ 
+实战：
+1.以回调函数编写为例
+
+    notification-callback.js
+    funtion notifyMessage(msg, opt, callback) {
+        if(Notification && Notification.permission === 'granted'){
+            const notification = new Notification(msg, opt);
+            callback(null, notification);
+        } else if (Notification.requestPermission) {
+            Notification.requestPermission(function (status) {
+                if (Notification.permission !== status) {
+                    Notification.permission = status;
+                }
+                if (status === 'granted') {
+                   const notification = new Notification(msg, opt);
+                   callback(null, notification); 
+                } else {
+                    callback(new Error('user denied'));
+                }
+            });
+        } else {
+            callback(new Error('doesn\'t support Notification API'));
+        }
+    }    
+    // 运行实例
+    // 第二个参数是传给 `Notification` 的option对象
+    notifyMessage("Hi!", {}, function (error, notification) {
+        if(error){
+            return console.error(error);
+        }
+        console.log(notification);// 通知对象
+    });
+
+2.对比使用回调函数，下面以promise重写
+    
+    notification-as-promise.js
+    function notifyMessage(msg, opt, callback) {
+        if (Notification && Notification.permission === 'granted') {
+            const notification = new Notification(msg, opt);
+            callback(null, notification);
+        } else if (Notification.requestPermission) {
+            Notification.requestPermission(function(status){
+                if (Notification.permission !== status) {
+                    Notification.permission = status;
+                }
+                if (status === 'granted') {
+                    const notification = new Notification(msg, opt);
+                    callback(null, notification);
+                } else {
+                    callback(new Error('user denied'));
+                }            
+            });
+        } else {
+            callback(new Error('doesn\'t support Notification API'));
+        }
+    }
+    
+    function notifyMessagePromise(msg opt) {
+        return new Promise(function(resolve, reject){
+            notifyMessage(msg, opt, function(error, notification){
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(notification);
+                }
+            });
+        });
+    }
+    
+    notifyMessagePromise("Hi!").then(function(notification){
+        console.log(notification);
+    }).catch(function(error){
+        console.log(error);
+    });
+
+3.Web Notifications As Thenable。thenable就是一个具有 .then方法的一个对象
+
+    notification-thenable.js
+    function notifyMessage(message, options, callback) {
+        if (Notification && Notification.permission === 'granted') {
+            var notification = new Notification(message, options);
+            callback(null, notification);
+        } else if (Notification.requestPermission) {
+            Notification.requestPermission(function (status) {
+                if (Notification.permission !== status) {
+                    Notification.permission = status;
+                }
+                if (status === 'granted') {
+                    var notification = new Notification(message, options);
+                    callback(null, notification);
+                } else {
+                    callback(new Error('user denied'));
+                }
+            });
+        } else {
+            callback(new Error('doesn\'t support Notification API'));
+        }
+    }
+    // 返回 `thenable`
+    function notifyMessageAsThenable(msg, opt) {
+        return {
+            'then': function(resolve, reject){
+                notifyMessage(msg, opt, function(error, notification) {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(notification);
+                    }
+                });
+            }
+        };
+    }
+    // 运行实例
+    Promise.resolve(notifyMessageAsThenable('Hi!', opt)).then(function(notification){
+        console.log(notification);
+    }).catch(function(error){
+        consoe.log(error);
+    });
+    
+
+`notification-thenable.js`里增加了一个 `notifyMessageAsThenable`方法。这个方法返回的对象具备一个`then方法`。
+
+`then`方法的参数和 `new Promise(function (resolve, reject){})` 一样，在确定时执行 `resolve` 方法，拒绝时调用 `reject` 方法。
+
+`then` 方法和 `notification-as-promise.js` 中的 `notifyMessageAsPromise` 方法完成了同样的工作。
+
+我们可以看出， `Promise.resolve(thenable)` 通过使用了  `thenable` 这个promise对象，就能利用Promise功能了。
+
+    Promise.resolve(notifyMessageAsThenable("message")).then(function (notification) {
+        console.log(notification);// 通知对象
+    }).catch(function(error){
+        console.error(error);
+    });
+    
+使用了Thenable的notification-thenable.js 和依赖于Promise的 notification-as-promise.js ，实际上都是非常相似的使用方法。
+
+notification-thenable.js 和 notification-as-promise.js比起来，有以下的不同点:
++ 类库侧没有提供 Promise 的实现
+    + 用户通过 Promise.resolve(thenable) 来自己实现了 Promise
++ 作为Promise使用的时候，需要和 Promise.resolve(thenable) 一起配合使用
+
+通过使用Thenable对象，我们可以实现类似已有的回调式风格和Promise风格中间的一种实现风格。
+
+4.`总结`
+在本小节我们主要学习了什么是Thenable，以及如何通过`Promise.resolve(thenable)` 使用Thenable，将其作为promise对象来使用。
+
+>Callback — Thenable — Promise
+
+Thenable风格表现为位于回调和Promise风格中间的一种状态，作为类库的公开API有点不太成熟，所以并不常见。
+
+Thenable本身并不依赖于`Promise`功能，但是Promise之外也没有使用Thenable的方式，所以可以认为Thenable间接依赖于Promise。
+
+另外，用户需要对 `Promise.resolve(thenable)` 有所理解才能使用好Thenable，因此作为类库的公开API有一部分会比较难。和公开API相比，更多情况下是在内部使用Thenable。
+
+>在编写异步处理的类库的时候，推荐采用先编写回调风格的函数，然后再转换为公开API这种方式。
+
+>貌似Node.js的Core module就采用了这种方式，除了类库提供的基本回调风格的函数之外，用户也可以通过Promise或者Generator等自己擅长的方式进行实现。
+
+>最初就是以能被Promise使用为目的的类库，或者其本身依赖于Promise等情况下，我想将返回promise对象的函数作为公开API应该也没什么问题。
+
+`什么时候该使用Thenable？`
+
+那么，又是在什么情况下应该使用Thenable呢？
+
+恐怕最可能被使用的是在 Promise类库 之间进行相互转换了。
+
+比如，类库Q的Promise实例为Q promise对象，提供了 ES6 Promises 的promise对象不具备的方法。Q promise对象提供了 `promise.finally(callback)` 和 `promise.nodeify(callback)` 等方法。
+
+如果你想将ES6 Promises的promise对象转换为Q promise的对象，轮到Thenable大显身手的时候就到了。
+
+使用thenable将promise对象转换为Q promise对象
+   
+    var Q = require("Q");
+    // 这是一个ES6的promise对象
+    var promise = new Promise(function(resolve){
+        resolve(1);
+    });
+    // 变换为Q promise对象
+    Q(promise).then(function(value){
+        console.log(value);
+    }).finally(function(){ 
+        console.log("finally");
+    });
+
+因为是Q promise对象所以可以使用 `finally` 方法
+
+上面代码中最开始被创建的promise对象具备`then`方法，因此是一个Thenable对象。我们可以通过`Q(thenable)`方法，将这个Thenable对象转换为Q promise对象。
+
+可以说它的机制和 `Promise.resolve(thenable)` 一样，当然反过来也一样。
+
+像这样，Promise类库虽然都有自己类型的promise对象，但是它们之间可以通过Thenable这个共通概念，在类库之间（当然也包括native Promise）进行promise对象的相互转换。
+
+我们看到，就像上面那样，Thenable多在类库内部实现中使用，所以从外部来说不会经常看到Thenable的使用。但是我们必须`牢记Thenable是Promise中一个非常重要的概念。`
+
+####使用reject而不是throw
 
