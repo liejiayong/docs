@@ -1,4 +1,7 @@
-#学习git推荐网站：https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001374829472990293f16b45df14f35b94b3e8a026220c5000
+﻿#总结在前
+[学习git推荐网站](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001374829472990293f16b45df14f35b94b3e8a026220c5000)
+[本人博客-兼乎](http://www.twicetech.top)
+
 
     >Unix哲学：“没有消息就是好消息”
     Git，一个代码管理库
@@ -19,9 +22,12 @@ git commit -m "wrote a readme file"  ---提交readme到创库
 
 ##git仓库文件 的 删除、重命名
 
-git rm file.js   ---删除已跟踪的文件清单中的文件
+git rm -r file.js   ---删除已跟踪的文件清单中的文件
 
 git mv oldFile newFile   ---对已跟踪的文件进行重命名操作
+
+git mv file folder ---移动file到folder
+git mv file file1 file2… folder --- 移动file、file1、file2…到folder
 
 ##git仓库 的 状态、版本、信息、回溯
 
@@ -95,8 +101,9 @@ git branch –d 要删除的分支
 代码合并。pull=fetch+merge
 
     有时候代码不能同步的时候，我们先合并本地和服务器的代码，才能git commit本地代码到服务器上面
-    
-git pull --rebase origin master
+ 
+git pull origin master ---下载代码
+git pull --rebase origin master ---合并代码
 	
     Github demo     
     …or create a new repository on the command line
