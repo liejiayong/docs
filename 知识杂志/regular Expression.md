@@ -2,7 +2,7 @@
  * Created by Administrator on 2017/10/13.
  */
 
-#正则表达式总结
+# 正则表达式总结
 
 >正则表达式是匹配模式，要么匹配字符，要么匹配位置
 
@@ -142,55 +142,59 @@ console.log( string.match(regex) );
 
 5.2 匹配时间
 以24小时制为例。
-要求匹配：
-23:59
-02:07
-----------------------------------------------------------------
-var regex = /^([01][0-9]|[2][0-3]):[0-5][0-9]$/;
-console.log( regex.test("23:59") );
-console.log( regex.test("02:07") );
-// => true
-// => true
-----------------------------------------------------------------
+
+    要求匹配：
+    23:59
+    02:07
+    ----------------------------------------------------------------
+        var regex = /^([01][0-9]|[2][0-3]):[0-5][0-9]$/;
+        console.log( regex.test("23:59") );
+        console.log( regex.test("02:07") );
+        // => true
+        // => true
+    ----------------------------------------------------------------
 
 5.3 匹配日期
 比如yyyy-mm-dd格式为例。
-要求匹配：
-2017-10-13
-----------------------------------------------------------------
-var regex = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
-console.log( regex.test("2017-06-10") );
-// => true
-----------------------------------------------------------------
+
+    要求匹配：
+    2017-10-13
+    ----------------------------------------------------------------
+    var regex = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+    console.log( regex.test("2017-06-10") );
+    // => true
+    ----------------------------------------------------------------
 
 5.4 window操作系统文件路径
-要求匹配：
-F:\study\javascript\regex\regular expression.pdf
-F:\study\javascript\regex\
-F:\study\javascript
-F:\
-----------------------------------------------------------------
-var regex = /^[a-zA-Z]:\\([^\\<>|''?\r\n/]+\\)*([^\\<>|''?\r\n/]+)?$/;
-console.log( regex.test("F:\\study\\javascript\\regex\\regular expression.pdf") );
-console.log( regex.test("F:\\study\\javascript\\regex\\") );
-console.log( regex.test("F:\\study\\javascript") );
-console.log( regex.test("F:\\") );
-// => true
-// => true
-// => true
-// => true
-----------------------------------------------------------------
+
+    要求匹配：
+    F:\study\javascript\regex\regular expression.pdf
+    F:\study\javascript\regex\
+    F:\study\javascript
+    F:\
+    ----------------------------------------------------------------
+    var regex = /^[a-zA-Z]:\\([^\\<>|''?\r\n/]+\\)*([^\\<>|''?\r\n/]+)?$/;
+    console.log( regex.test("F:\\study\\javascript\\regex\\regular expression.pdf") );
+    console.log( regex.test("F:\\study\\javascript\\regex\\") );
+    console.log( regex.test("F:\\study\\javascript") );
+    console.log( regex.test("F:\\") );
+    // => true
+    // => true
+    // => true
+    // => true
+    ----------------------------------------------------------------
 
 5.5 匹配id
-要求从
-<div id="container" class="main"></div>
-提取出id="container"
-----------------------------------------------------------------
-var regex = /id="[^"]"/;
+
+    要求从
+    <div id="container" class="main"></div>
+    提取出id="container"
+    ----------------------------------------------------------------
+    var regex = /id="[^"]"/;
 
 
 
-##位置匹配
+## 位置匹配
 >正则表达式是匹配模式，要么匹配字符，要么匹配位置。请记住这句话。
 
     内容包括：
@@ -214,42 +218,46 @@ var regex = /id="[^"]"/;
     $（美元符号）匹配结尾，在多行匹配中匹配行结尾。
 
 比如我们把字符串的开头和结尾用"#"替换（位置可以替换成字符的！）
-----------------------------------------------------------------
-var regex = \^|$\g
-var result = "hello".replace(regex,"#");
-console.log(result);
-// => "#hello#"
-----------------------------------------------------------------
+
+    ----------------------------------------------------------------
+    var regex = \^|$\g
+    var result = "hello".replace(regex,"#");
+    console.log(result);
+    // => "#hello#"
+    ----------------------------------------------------------------
 
 多行匹配模式时，二者是行的概念，这个需要我们的注意：
-----------------------------------------------------------------
-var result = "I\nlove\njavascript".replace(/^|$/gm, '#');
-console.log(result);
-/*
-#I#
-#love#
-#javascript#
-*/
-----------------------------------------------------------------
+
+    ----------------------------------------------------------------
+    var result = "I\nlove\njavascript".replace(/^|$/gm, '#');
+    console.log(result);
+    /*
+    #I#
+    #love#
+    #javascript#
+    */
+    ----------------------------------------------------------------
 
 2.2 \b和\B
     \b是单词边界，具体就是\w和\W之间的位置，也包括\w和^之间的位置，也包括\w和$之间的位置。
 
     比如一个文件名是"[JS] Lesson_01.mp4"中的\b，如下：
-----------------------------------------------------------------
-var result = "[JS] Lesson_01.mp4".replace(/\b/g, '#');
-console.log(result);
-// => "[#JS#] #Lesson_01#.#mp4#"
-----------------------------------------------------------------
+
+    ----------------------------------------------------------------
+    var result = "[JS] Lesson_01.mp4".replace(/\b/g, '#');
+    console.log(result);
+    // => "[#JS#] #Lesson_01#.#mp4#"
+    ----------------------------------------------------------------
 
     \B就是\b的反面的意思，非单词边界。例如在字符串中所有位置中，扣掉\b，剩下的都是\B的。
 
     比如上面的例子，把所有\B替换成"#"：
-----------------------------------------------------------------
-var result = "[JS] Lesson_01.mp4".replace(/\B/g, '#');
-console.log(result);
-// => "#[J#S]# L#e#s#s#o#n#_#0#1.m#p#4"
-----------------------------------------------------------------
+
+    ----------------------------------------------------------------
+    var result = "[JS] Lesson_01.mp4".replace(/\B/g, '#');
+    console.log(result);
+    // => "#[J#S]# L#e#s#s#o#n#_#0#1.m#p#4"
+    ----------------------------------------------------------------
 
     \b和\B总结：
     \b -> 不连续单词边界
@@ -260,32 +268,31 @@ console.log(result);
     (?=p)，其中p是一个子模式，即p前面的位置。
 
 比如(?=l)，表示'l'字符前面的位置，例如：
-----------------------------------------------------------------
-var result = "hello".replace(/(?=l)/g, '#');
-console.log(result);
-// => "he#l#lo"
-----------------------------------------------------------------
+
+    ----------------------------------------------------------------
+    var result = "hello".replace(/(?=l)/g, '#');
+    console.log(result);
+    // => "he#l#lo"
+    ----------------------------------------------------------------
 
 而(?!p)就是(?=p)的反面意思，比如：
-----------------------------------------------------------------
-var result = "hello".replace(/(?!l)/g, '#');
-console.log(result);
-// => "#h#ell#o#"
-----------------------------------------------------------------
 
-    (?=p)和(?!p)总结：
-    -----------------------------------------------------------
-    |     分类依据     |      (?=p)         |    (?!p)
-    -----------------------------------------------------------
-    |     学名         | positive lookahead | negative lookahead
-    -----------------------------------------------------------
-    |     中文翻译     |  正向先行断言      |  负向先行断言
-    -----------------------------------------------------------
-    |     环视         |  看看右边          |  看看左边
-    -----------------------------------------------------------
-    |     (?=p)，一般都理解成：要求接下来的字符与p匹配，但不能包括p的那些字符
-    |     而在本人看来(?=p)就与^一样好理解，就是p前面的那个位置
-    -----------------------------------------------------------
+    ----------------------------------------------------------------
+    var result = "hello".replace(/(?!l)/g, '#');
+    console.log(result);
+    // => "#h#ell#o#"
+    ----------------------------------------------------------------
+
+(?=p)和(?!p)总结：
+|     分类依据     |      (?=p)         |    (?!p)
+|------------------|--------------------|--------------------|
+|     学名         | positive lookahead | negative lookahead
+|     中文翻译     |  正向先行断言      |  负向先行断言
+|     环视         |  看看右边          |  看看左边
+
++ (?=p)，一般都理解成：要求接下来的字符与p匹配，但不能包括p的那些字符
++ 而在本人看来(?=p)就与^一样好理解，就是p前面的那个位置
+
 
 
 3. 位置的特性
@@ -298,16 +305,16 @@ console.log(result);
 
 因此，把/^hello$/写成/^^hello$$$/，是没有任何问题的：
 ----------------------------------------------------------------
-var result = /^^hello$$$/.test("hello");
-console.log(result);
-// => true
+    var result = /^^hello$$$/.test("hello");
+    console.log(result);
+    // => true
 ----------------------------------------------------------------
 
 甚至可以写成更复杂的:
 ----------------------------------------------------------------
-var result = /(?=he)^^he(?=\w)llo$\b\b$/.test("hello");
-console.log(result);
-// => true
+    var result = /(?=he)^^he(?=\w)llo$\b\b$/.test("hello");
+    console.log(result);
+    // => true
 ----------------------------------------------------------------
 
 4. 相关案例
@@ -324,16 +331,16 @@ console.log(result);
 
 4.2.1 弄出最后一个逗号
 ----------------------------------------------------------------
-var result = "12345678".replace(/(?=\d{3}$)/g, ',')
-console.log(result);
-// => "12345,678"
+    var result = "12345678".replace(/(?=\d{3}$)/g, ',')
+    console.log(result);
+    // => "12345,678"
 ----------------------------------------------------------------
 
 4.2.2 弄出所有的逗号
 ----------------------------------------------------------------
-var result = "123456789".replace(/(?=(\d{3})+$)/g, ',')
-console.log(result);
-// => ",123,456,789"
+    var result = "123456789".replace(/(?=(\d{3})+$)/g, ',')
+    console.log(result);
+    // => ",123,456,789"
 ----------------------------------------------------------------
 
 因为上面的正则，仅仅表示把从结尾向前数，一但是3的倍数，就把其前面的位置替换成逗号。因此才会出现这个问题。
@@ -341,28 +348,28 @@ console.log(result);
 我们知道匹配开头可以使用^，但要求这个位置不是开头怎么办？
 
 ----------------------------------------------------------------
-var string1 = "12345678",
-string2 = "123456789";
-var reg = /(?!^)(?=(\d{3})+$)/g;
+    var string1 = "12345678",
+    string2 = "123456789";
+    var reg = /(?!^)(?=(\d{3})+$)/g;
 
-var result = string1.replace(reg, ',')
-console.log(result);
-// => "12,345,678"
+    var result = string1.replace(reg, ',')
+    console.log(result);
+    // => "12,345,678"
 
-result = string2.replace(reg, ',');
-console.log(result);
-// => "123,456,789"
+    result = string2.replace(reg, ',');
+    console.log(result);
+    // => "123,456,789"
 ----------------------------------------------------------------
 
 4.2.4 支持其他形式
 如果要把"12345678 123456789"替换成"12,345,678 123,456,789"。
 此时我们需要修改正则，把里面的开头^和结尾$，替换成\b：
 ----------------------------------------------------------------
-var string = "12345678 123456789",
-reg = /(?!\b)(?=(\d{3})+\b)/g;    或/\B(?=(\d{3})+\b)/g
-var result = string.replace(reg, ',')
-console.log(result);
-// => "12,345,678 123,456,789"
+    var string = "12345678 123456789",
+    reg = /(?!\b)(?=(\d{3})+\b)/g;    或/\B(?=(\d{3})+\b)/g
+    var result = string.replace(reg, ',')
+    console.log(result);
+    // => "12,345,678 123,456,789"
 ----------------------------------------------------------------
 
 4.3 验证密码问题
@@ -372,13 +379,13 @@ console.log(result);
 4.同时包含数字、小写字母和大写字母
 以上的4种情况是或的关系（实际上，可以不用第4条）。
 ----------------------------------------------------------------
-var reg = /((?=.*[0-9])(?=.*[a-z])|(?=.*[0-9])(?=.*[A-Z])|(?=.*[a-z])(?=.*[A-Z]))^[0-9A-Za-z]{6,12}$/;
-console.log( reg.test("1234567") ); // false 全是数字
-console.log( reg.test("abcdef") ); // false 全是小写字母
-console.log( reg.test("ABCDEFGH") ); // false 全是大写字母
-console.log( reg.test("ab23C") ); // false 不足6位
-console.log( reg.test("ABCDEF234") ); // true 大写字母和数字
-console.log( reg.test("abcdEF234") ); // true 三者都有
+    var reg = /((?=.*[0-9])(?=.*[a-z])|(?=.*[0-9])(?=.*[A-Z])|(?=.*[a-z])(?=.*[A-Z]))^[0-9A-Za-z]{6,12}$/;
+    console.log( reg.test("1234567") ); // false 全是数字
+    console.log( reg.test("abcdef") ); // false 全是小写字母
+    console.log( reg.test("ABCDEFGH") ); // false 全是大写字母
+    console.log( reg.test("ab23C") ); // false 不足6位
+    console.log( reg.test("ABCDEF234") ); // true 大写字母和数字
+    console.log( reg.test("abcdEF234") ); // true 三者都有
 ----------------------------------------------------------------
 
 理解：
@@ -394,17 +401,18 @@ console.log( reg.test("abcdEF234") ); // true 三者都有
 “至少包含两种字符”的意思就是说，不能全部都是数字，也不能全部都是小写字母，也不能全部都是大写字母。
 那么要求“不能全部都是数字”，怎么做呢？(?!p)出马！
 对应的正则是：
-var reg = /(?!^[0-9]{6,12}$)^[0-9A-Za-z]{6,12}$/;
+
+    var reg = /(?!^[0-9]{6,12}$)^[0-9A-Za-z]{6,12}$/;
 
 优化后的正则为：
 ----------------------------------------------------------------
-var reg = /(?!^[0-9]{6,12}$)(?!^[a-z]{6,12}$)(?!^[A-Z]{6,12}$)^[0-9A-Za-z]{6,12}$/;
-console.log( reg.test("1234567") ); // false 全是数字
-console.log( reg.test("abcdef") ); // false 全是小写字母
-console.log( reg.test("ABCDEFGH") ); // false 全是大写字母
-console.log( reg.test("ab23C") ); // false 不足6位
-console.log( reg.test("ABCDEF234") ); // true 大写字母和数字
-console.log( reg.test("abcdEF234") ); // true 三者都有
+    var reg = /(?!^[0-9]{6,12}$)(?!^[a-z]{6,12}$)(?!^[A-Z]{6,12}$)^[0-9A-Za-z]{6,12}$/;
+    console.log( reg.test("1234567") ); // false 全是数字
+    console.log( reg.test("abcdef") ); // false 全是小写字母
+    console.log( reg.test("ABCDEFGH") ); // false 全是大写字母
+    console.log( reg.test("ab23C") ); // false 不足6位
+    console.log( reg.test("ABCDEF234") ); // true 大写字母和数字
+    console.log( reg.test("abcdEF234") ); // true 三者都有
 ----------------------------------------------------------------
 
 ##括号的作用
@@ -428,10 +436,10 @@ console.log( reg.test("abcdEF234") ); // true 三者都有
 我们知道/a+/匹配连续出现的“a”，而要匹配连续出现的“ab”时，需要使用/(ab)+/。
 其中括号是提供分组功能，使量词+作用于“ab”这个整体，测试如下：
 ----------------------------------------------------------------
-var regex = /(ab)+/g;
-var string = "ababa abbb ababab";
-console.log( string.match(regex) );
-// => ["abab", "ab", "ababab"]
+    var regex = /(ab)+/g;
+    var string = "ababa abbb ababab";
+    console.log( string.match(regex) );
+    // => ["abab", "ab", "ababab"]
 ----------------------------------------------------------------
 
 1.2 分支结构
@@ -441,11 +449,11 @@ I love JavaScript
 I love Regular Expression
 可以使用正则：
 ----------------------------------------------------------------
-var regex = /^I love (JavaScript|Regular Expression)$/;
-console.log( regex.test("I love JavaScript") );
-console.log( regex.test("I love Regular Expression") );
-// => true
-// => true
+    var regex = /^I love (JavaScript|Regular Expression)$/;
+    console.log( regex.test("I love JavaScript") );
+    console.log( regex.test("I love Regular Expression") );
+    // => true
+    // => true
 ----------------------------------------------------------------
 
 2. 引用分组
@@ -453,13 +461,13 @@ console.log( regex.test("I love Regular Expression") );
 而要使用它带来的好处，必须配合使用实现环境的API。
 以日期为例。假设格式是yyyy-mm-dd的，我们可以先写一个简单的正则：
 ----------------------------------------------------------------
-var regex = /\d{4}-\d{2}-\d{2}/;
+    var regex = /\d{4}-\d{2}-\d{2}/;
 ----------------------------------------------------------------
 
 然后再修改成括号版的：
 
 ----------------------------------------------------------------
-var regex = /(\d{4})-(\d{2})-(\d{2})/;
+    var regex = /(\d{4})-(\d{2})-(\d{2})/;
 ----------------------------------------------------------------
 
 为什么要使用这个正则呢？
@@ -467,72 +475,72 @@ var regex = /(\d{4})-(\d{2})-(\d{2})/;
 2.1 提取数据
 比如提取出年、月、日，可以这么做：
 ----------------------------------------------------------------
-var regex = /(\d{4})-(\d{2})-(\d{2})/;
-var string = "2017-06-12";
-console.log( string.match(regex) );
-// => ["2017-06-12", "2017", "06", "12", index: 0, input: "2017-06-12"]
+    var regex = /(\d{4})-(\d{2})-(\d{2})/;
+    var string = "2017-06-12";
+    console.log( string.match(regex) );
+    // => ["2017-06-12", "2017", "06", "12", index: 0, input: "2017-06-12"]
 ----------------------------------------------------------------
 对比：
 ----------------------------------------------------------------
-var regex = /\d{4}-\d{2}-\d{2}/;
-var string = "2017-06-12";
-console.log( string.match(regex) );
-// => ["2017-06-12", index: 0, input: "2017-06-12"]
+    var regex = /\d{4}-\d{2}-\d{2}/;
+    var string = "2017-06-12";
+    console.log( string.match(regex) );
+    // => ["2017-06-12", index: 0, input: "2017-06-12"]
 ----------------------------------------------------------------
 
 match返回的一个数组，第一个元素是整体匹配结果，然后是各个分组（括号里）匹配的内容，然后是匹配下标，最后是输入的文本。（注意：如果正则是否有修饰符g，match返回的数组格式是不一样的）。
 
 另外也可以使用正则对象的exec方法：
 ----------------------------------------------------------------
-var regex = /(\d{4})-(\d{2})-(\d{2})/;
-var string = "2017-06-12";
-console.log( regex.exec(string) );
-// => ["2017-06-12", "2017", "06", "12", index: 0, input: "2017-06-12"]
+    var regex = /(\d{4})-(\d{2})-(\d{2})/;
+    var string = "2017-06-12";
+    console.log( regex.exec(string) );
+    // => ["2017-06-12", "2017", "06", "12", index: 0, input: "2017-06-12"]
 ----------------------------------------------------------------
 
 同时，也可以使用构造函数的全局属性$1至$9来获取：
 ----------------------------------------------------------------
-var regex = /(\d{4})-(\d{2})-(\d{2})/;
-var string = "2017-06-12";
+    var regex = /(\d{4})-(\d{2})-(\d{2})/;
+    var string = "2017-06-12";
 
-regex.test(string); // 正则操作即可，例如
-//regex.exec(string);
-//string.match(regex);
+    regex.test(string); // 正则操作即可，例如
+    //regex.exec(string);
+    //string.match(regex);
 
-console.log(RegExp.$1); // "2017"
-console.log(RegExp.$2); // "06"
-console.log(RegExp.$3); // "12"
+    console.log(RegExp.$1); // "2017"
+    console.log(RegExp.$2); // "06"
+    console.log(RegExp.$3); // "12"
 ----------------------------------------------------------------
 
 2.2 替换
 比如，想把yyyy-mm-dd格式，替换成mm/dd/yyyy怎么做？
 ----------------------------------------------------------------
-var regex = /(\d{4})-(\d{2})-(\d{2})/;
-var string = "2017-06-12";
-var result = string.replace(regex, "$2/$3/$1");
-console.log(result);
-// => "06/12/2017"
+    var regex = /(\d{4})-(\d{2})-(\d{2})/;
+    var string = "2017-06-12";
+    var result = string.replace(regex, "$2/$3/$1");
+    console.log(result);
+    // => "06/12/2017"
 ----------------------------------------------------------------
 
 其中replace中的，第二个参数里用$1、$2、$3指代相应的分组。等价于如下的形式：
 ----------------------------------------------------------------
-var regex = /(\d{4})-(\d{2})-(\d{2})/;
-var string = "2017-06-12";
-var result = string.replace(regex, function() {
-	return RegExp.$2 + "/" + RegExp.$3 + "/" + RegExp.$1;
-});
-console.log(result);
-// => "06/12/2017"
+    var regex = /(\d{4})-(\d{2})-(\d{2})/;
+    var string = "2017-06-12";
+    var result = string.replace(regex, function() {
+        return RegExp.$2 + "/" + RegExp.$3 + "/" + RegExp.$1;
+    });
+    console.log(result);
+    // => "06/12/2017"
 ----------------------------------------------------------------
 也等价于：
 ----------------------------------------------------------------
-var regex = /(\d{4})-(\d{2})-(\d{2})/;
-var string = "2017-06-12";
-var result = string.replace(regex, function(match, year, month, day) {
-	return month + "/" + day + "/" + year;
-});
-console.log(result);
-// => "06/12/2017"
+    var regex = /(\d{4})-(\d{2})-(\d{2})/;
+    var string = "2017-06-12";
+    var result = string.replace(regex, function(match, year, month, day) {
+        return month + "/" + day + "/" + year;
+    });
+    console.log(result);
+    // => "06/12/2017"
 ----------------------------------------------------------------
 
 3. 反向引用
@@ -543,30 +551,33 @@ console.log(result);
 2016/06/12
 2016.06.12
 最先可能想到的正则是:
+
 ----------------------------------------------------------------
-var regex = /\d{4}(-|\/|\.)\d{2}(-|\/|\.)\d{2}/;
-var string1 = "2017-06-12";
-var string2 = "2017/06/12";
-var string3 = "2017.06.12";
-var string4 = "2016-06/12";
-console.log( regex.test(string1) ); // true
-console.log( regex.test(string2) ); // true
-console.log( regex.test(string3) ); // true
-console.log( regex.test(string4) ); // true
+    var regex = /\d{4}(-|\/|\.)\d{2}(-|\/|\.)\d{2}/;
+    var string1 = "2017-06-12";
+    var string2 = "2017/06/12";
+    var string3 = "2017.06.12";
+    var string4 = "2016-06/12";
+    console.log( regex.test(string1) ); // true
+    console.log( regex.test(string2) ); // true
+    console.log( regex.test(string3) ); // true
+    console.log( regex.test(string4) ); // true
 ----------------------------------------------------------------
+
 
 其中/和.需要转义。虽然匹配了要求的情况，但也匹配"2016-06/12"这样的数据。
 假设我们想要求分割符前后一致怎么办？此时需要使用反向引用：
+
 ----------------------------------------------------------------
-var regex = /\d{4}(-|\/|\.)\d{2}\1\d{2}/;
-var string1 = "2017-06-12";
-var string2 = "2017/06/12";
-var string3 = "2017.06.12";
-var string4 = "2016-06/12";
-console.log( regex.test(string1) ); // true
-console.log( regex.test(string2) ); // true
-console.log( regex.test(string3) ); // true
-console.log( regex.test(string4) ); // false
+    var regex = /\d{4}(-|\/|\.)\d{2}\1\d{2}/;
+    var string1 = "2017-06-12";
+    var string2 = "2017/06/12";
+    var string3 = "2017.06.12";
+    var string4 = "2016-06/12";
+    console.log( regex.test(string1) ); // true
+    console.log( regex.test(string2) ); // true
+    console.log( regex.test(string3) ); // true
+    console.log( regex.test(string4) ); // false
 ----------------------------------------------------------------
 
 注意里面的\1，表示的引用之前的那个分组(-|\/|\.)。不管它匹配到什么（比如-），\1都匹配那个同样的具体某个字符。
