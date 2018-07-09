@@ -1,41 +1,41 @@
-#总结在前
+# 总结在前
 
-#前言
+# 前言
 下文类似 Promise#then、Promise#resolve 都是Promise的实例对象，
 
-#什么是Promise
+# 什么是Promise
 Promise是抽象异步处理对象以及对其进行各种操作的组件
 
-##Promise简介
-###目前大致有下面三种类型：
+## Promise简介
+### 目前大致有下面三种类型：
 
->1、Constructor
++ 1、Constructor
 
     var promise = new Promise(function(resolve, reject) {
         // 异步处理
         // 处理结束后、调用resolve 或 reject
     });
 
->2、Instance Method
++ 2、Instance Method
 
     promise.then(resolved, rejected)
             .catch(rejected)
             .finally()
 
->3、Static Method
++ 3、Static Method
 
     Promise.all()
     Promise.resolve()
     Promise.reject()
     Promise.race()
 
-###对比
+### 对比
 
     Promise.resolve() 
     等价于
     new Promise(function(resolve, null){})
 
-##Promise的状态
+## Promise的状态
 
 用new Promise 实例化的promise对象有以下三个状态。
 
@@ -50,23 +50,23 @@ Promise是抽象异步处理对象以及对其进行各种操作的组件
 ![Promise状态解析图](http://liubin.org/promises-book/Ch1_WhatsPromises/img/promise-states.png "Promise状态解析图")
 
 
-##编写Promise
+## 编写Promise
 ### 创建Promise对象
    
->1.new Promise(fn) 返回一个promise对象
++ 1.new Promise(fn) 返回一个promise对象
     
->2.在fn 中 **指定** 异步等处理
++ 2.在fn 中 **指定** 异步等处理
 
     处理结果正常的话，调用resolve(处理结果值)
     处理结果错误的话，调用reject(Error对象)
 
->3.函数处理 Promise对像
++ 3.函数处理 Promise对像
     
     then();  --- 为了避免上述中同时使用同步、异步调用可能引起的混乱问题
     catch(); --- catch在ie8下存在兼容性问题
     finally();
 
-####实战
+#### 实战
     
     function getURL (URL) {
         return new Promise(function(resolve, reject){
@@ -86,16 +86,16 @@ Promise是抽象异步处理对象以及对其进行各种操作的组件
         })
     }
 
-##实战 Promise中各种方法
+## 实战 Promise中各种方法
 
-###Promise.resolve()
+### Promise.resolve()
     返回值是一个promise对象
     
-> 静态方法 Promise.resolve() 可以认为是实例 new Promise(function(resolve, undefined){})方法 的快捷方式（语法糖）
+静态方法 Promise.resolve() 可以认为是实例 new Promise(function(resolve, undefined){})方法 的快捷方式（语法糖）
     
 + 让promise对象立即进入resolved状态
 
->将 thenable 对象转换为promise对象
+将 thenable 对象转换为promise对象
 
 + 返回值是 thenable
 
@@ -108,7 +108,7 @@ Promise是抽象异步处理对象以及对其进行各种操作的组件
 ###Promise.reject()
     返回值是一个promise对象
     
-> 静态方法 Promise.resolve() 可以认为是实例 promise.then(undefined, onRejected)方法 的快捷方式（语法糖）
+静态方法 Promise.resolve() 可以认为是实例 promise.then(undefined, onRejected)方法 的快捷方式（语法糖）
     
 + 让promise对象立即进入rejected状态
 + 使用catch()处理异常
@@ -120,8 +120,11 @@ Promise是抽象异步处理对象以及对其进行各种操作的组件
     });
     
 
-###专栏: Promise只能进行异步操作？
-**Promise在规范上规定 Promise只能使用异步调用方式**思考一个问题：文档的加载顺序都是从上到下加载的，那么代码的的位置起何等作用？
+### 专栏: Promise只能进行异步操作？
+
+**Promise在规范上规定 Promise只能使用异步调用方式**思考一个问题：文档的加载顺序都是从上到下加载的，
+
+那么代码的的位置起何等作用？
 
 先看看Promise的执行
     
@@ -216,7 +219,7 @@ Effective JavaScript
     
 由于Promise保证了每次调用都是以异步方式进行的，所以我们在实际编码中不需要调用 setTimeout 来自己实现异步调用。
 
-###Promise#then
+### Promise#then
 
 Promise方法链（Promise Chain）。Promise可以将任意方法写在一起作为一个方法链,所以适合编写异步处理较多的应用.(越短越好)
 
@@ -246,9 +249,9 @@ Promise方法链（Promise Chain）。Promise可以将任意方法写在一起�
        
 ![流程图](http://liubin.org/promises-book/Ch2_HowToWrite/img/promise-then-catch-flow.png)
    
-####Promise Chain 中的传参原理
+#### Promise Chain 中的传参原理
 
->Promise Chain 之间的传参，只需要在每个事务回调函数中使用 **return** 来返回当前值
+Promise Chain 之间的传参，只需要在每个事务回调函数中使用 **return** 来返回当前值
 
     如：
     function doubleUp(value) {
@@ -280,7 +283,7 @@ Promise方法链（Promise Chain）。Promise可以将任意方法写在一起�
 + 也就是说， Promise#then 不仅仅是注册一个回调函数那么简单，它还会将回调函数的返回值进行变换，创建并返回一个promise对象。
 
 
-###Promise#catch
+### Promise#catch
 
 #### IE8兼容性
 ![Promise 浏览器兼容性](http://liubin.org/promises-book/Ch2_HowToWrite/img/promise-catch-error.png)
@@ -301,7 +304,7 @@ Promise方法链（Promise Chain）。Promise可以将任意方法写在一起�
 >在ECMAScript5中保留字也不能作为 Identifier 即变量名或方法名使用。 如果我们定义了一个名为 for 的变量的话，那么就不能和循环语句的 for 区分了。 而作为属性名的话，我们还是很容易区分 object.for 和 for 的，仔细想想我们就应该能接受将保留字作为属性名来使用了。
 
 
-####分析
+#### 分析
 
 点标记法（dot notation） 要求对象的属性必须是有效的标识符（在ECMAScript 3中则不能使用保留字），
 
@@ -309,7 +312,7 @@ Promise方法链（Promise Chain）。Promise可以将任意方法写在一起�
 
 也就是说，上面的代码如果像下面这样重写的话，就能在IE8及以下版本的浏览器中运行了（当然还需要polyfill）。
 
-####解决ie8一下兼容性问题
+#### 解决ie8一下兼容性问题
      
  1.使用中括号标记法（bracket notation）：
  
@@ -327,7 +330,7 @@ Promise方法链（Promise Chain）。Promise可以将任意方法写在一起�
     });
     
     
-####科普：一些库有关promise.catch的解决方案
+#### 科普：一些库有关promise.catch的解决方案
 
 由于 catch 标识符可能会导致问题出现，因此一些类库（Library）也采用了 caught 作为函数名，而函数要完成的工作是一样的。
 
@@ -336,9 +339,9 @@ Promise方法链（Promise Chain）。Promise可以将任意方法写在一起�
 如果各位读者需要支持IE8及以下版本的浏览器的话，那么一定要将这个 catch 问题牢记在心中。
  
      
-###专栏: **每次调用then** 都会 **返回** 一个**新创建的promise对象**
+### 专栏: **每次调用then** 都会 **返回** 一个**新创建的promise对象**
 
-####测试每次调用then的返回值
+#### 测试每次调用then的返回值
 
     var aPromise = new Promise(function (resolve) {
         resolve(100);
@@ -400,7 +403,7 @@ promise.then每次接受的参数都为第一次new时所传入的数，
 因此，链式调用是比较推荐的写法，能避免很多不必要的错误
 
 
-####一个有关then的很有代表性的反模式的例子
+#### 一个有关then的很有代表性的反模式的例子
 
     错误做法xxx
     function badAsyncCall() {
@@ -422,7 +425,7 @@ promise.then每次接受的参数都为第一次new时所传入的数，
         
 这种函数的行为贯穿在Promise整体之中， 包括我们后面要进行说明的 Promise.all 和 Promise.race ，他们都会接收一个promise对象为参数，并返回一个和接收参数不同的、新的promise对象。
 
-###Promise和数组
+### Promise和数组
 因为技术不够，暂时总结不出来，先贴代码
 
 需要事先说明的是 Promise.all 比较适合这种应用场景的需求，因此我们故意采用了大量 .then 的晦涩的写法。
@@ -472,7 +475,8 @@ promise.then每次接受的参数都为第一次new时所传入的数，
     
     
     
-###Promise.all
+### Promise.all
+
 **接收一个 promise对象的数组** 作为参数，当这个数组里的**所有promise对象**全部变为resolve或reject状态的时候，它才会去调用 .then 方法。
 
     实战
@@ -512,7 +516,7 @@ promise.then每次接受的参数都为第一次new时所传入的数，
         console.log(value);
     });
     
-###Promise.race
+### Promise.race
 使用方法和Promise.all一样，接收一个promise对象数组为参数。
 
 Promise.all 在接收到的所有的对象promise都变为 FulFilled 或者 Rejected 状态之后才会继续进行后面的处理， 
@@ -543,13 +547,13 @@ Promise.all 在接收到的所有的对象promise都变为 FulFilled 或者 Reje
 
 >在 ES6 Promises 规范中，也没有取消（中断）promise对象执行的概念，我们必须要确保promise最终进入resolve or reject状态之一。也就是说Promise并不适用于 状态 可能会固定不变的处理。也有一些类库提供了对promise进行取消的操作。
 
-###then or catch?
+### then or catch?
 
 >.then 和 .catch 都会创建并返回一个 新的 promise对象。 Promise实际上每次在方法链中增加一次处理的时候所操作的都不是完全相同的promise对象。
 
 ![promise原理图](http://liubin.org/promises-book/Ch2_HowToWrite/img/then_catch.png)
 
-####案例：
+#### 案例：
 
     function throwError(value) {
         // 抛出异常
@@ -575,7 +579,7 @@ Promise.all 在接收到的所有的对象promise都变为 FulFilled 或者 Reje
 而且badMain没有运行
 
 
-####分析
+#### 分析
 
 在上述例子中，Promise.resolve(42)接受了value后返回 一个新的Promise对象A，接着then通过链式接受A对象并分别指定回调函数里面的参数resolve和reject；
 
@@ -583,7 +587,7 @@ Promise.all 在接收到的所有的对象promise都变为 FulFilled 或者 Reje
 
 对于goodMain函数，then方法回调函数参数的resolve抛出异常，并有then后面的catch函数接受异常函数E，所以goodMain被调用并正常打印成功。
 
-####总结
+#### 总结
 
 这里我们又学习到了如下一些内容。
 
@@ -602,7 +606,7 @@ Promise.all 在接收到的所有的对象promise都变为 FulFilled 或者 Reje
 我们需要注意如果代码类似 badMain 那样的话，就可能出现程序不会按预期运行的情况，从而不能正确的进行错误处理。
 
 
-###Promise测试
+### Promise测试
 总结编写Promise 的测试代码
 
 1.使用Mocha测试框架
@@ -613,13 +617,13 @@ Promise.all 在接收到的所有的对象promise都变为 FulFilled 或者 Reje
 + 支持基于Node.js 和浏览器的测试
 + 支持"Promise测试"
 
-####Macha简介
+#### Macha简介
 >Mocha可以自由选择BDD、TDD、exports中的任意风格，测试中用到的Assert 方法也同样可以跟任何其他类库组合使用。 也就是说，Mocha本身只提供执行测试时的框架，而其他部分则由使用者自己选择
 
 + [Mocha官网](https://mochajs.org/)
 + Mocha是Node.js下的测试框架工具
 
-####Macha-回调函数风格的测试
+#### Macha-回调函数风格的测试
 
     //basic-test.js
     var assert = require('power-assert');
@@ -644,10 +648,10 @@ Promise.all 在接收到的所有的对象promise都变为 FulFilled 或者 Reje
         });
     });
     
-###Promise进阶(Advanced)
+### Promise进阶(Advanced)
 
-####Promise的实现类库（Library）
->ES6 Promise 里关于promise对象的规定包括在使用 catch 方法，或使用 Promise.all 进行处理的时候不能出现错误。
+#### Promise的实现类库（Library）
+ES6 Promise 里关于promise对象的规定包括在使用 catch 方法，或使用 Promise.all 进行处理的时候不能出现错误。
 
 Promises/A+ 是 ES6 Promises 的前身，Promise的 then 也是来自于此的基于社区的规范。
 
@@ -657,12 +661,12 @@ Promises/A+ 是 ES6 Promises 的前身，Promise的 then 也是来自于此的�
 
 如果我们说一个类库具有 then 兼容性的话，实际上指的是 Thenable ，它通过使用 Promise.resolve 基于ES6 Promise的规定，进行promise对象的变换。
 
-####Polyfill和扩展类库
+#### Polyfill和扩展类库
 在这些Promise的实现类库中，我们这里主要对两种类型的类库进行介绍。
 
->一种是被称为 Polyfill （这是一款英国产品，就是装修刮墙用的腻子，其意义可想而知 — 译者注）的类库，另一种是即具有 Promises/A+兼容性 ，又增加了自己独特功能的类库。
++ 一种是被称为 Polyfill （这是一款英国产品，就是装修刮墙用的腻子，其意义可想而知 — 译者注）的类库，另一种是即具有 Promises/A+兼容性 ，又增加了自己独特功能的类库。
 
->Promise的实现类库数量非常之多，这里我们只是介绍了其中有限的几个。
++ Promise的实现类库数量非常之多，这里我们只是介绍了其中有限的几个。
 
 1.Polyfill
 
@@ -698,7 +702,7 @@ Bluebird的文档除了提供了使用Promise丰富的实现方式之外，还�
 
 这两个类库的文档写得都很友好，即使我们不使用这两个类库，阅读一下它们的文档也具有一定的参考价值。
 
-####Promise.resolve和Thenable
+#### Promise.resolve和Thenable
  Promise.resolve 的最大特征之一就是可以将thenable的对象转换为promise对象。现在总结一下利用将thenable对象转换为promise对象这个功能都能具体做些什么事情。下面是案例：
  
  1.将Web Notifications转换为thenable对象
@@ -915,7 +919,9 @@ Thenable本身并不依赖于`Promise`功能，但是Promise之外也没有使�
 
 我们看到，就像上面那样，Thenable多在类库内部实现中使用，所以从外部来说不会经常看到Thenable的使用。但是我们必须`牢记Thenable是Promise中一个非常重要的概念。`
 
-####使用reject而不是throw
+
+#### 使用reject而不是throw
+
 Promise的构造函数，以及被 then 调用执行的函数基本上都可以认为是在 try...catch 代码块中执行的，所以在这些代码中即使使用 throw ，程序本身也不会因为异常而终止。
 
 那么使用reject还是throw？先看看代码对比
@@ -941,7 +947,7 @@ Promise的构造函数，以及被 then 调用执行的函数基本上都可以�
 对比上面案例，相对于throw，使用reject更加直观、合理
 
 
-#####`使用reject有什么优点？`
+##### `使用reject有什么优点？`
 
 1.首先是因为我们很难区分 throw 是我们主动抛出来的，还是因为真正的其它 异常 导致的。
   
@@ -980,7 +986,7 @@ Promise的构造函数，以及被 then 调用执行的函数基本上都可以�
 + 使用 reject 会比使用 throw 安全
 + 在 then 中使用reject的方法
 
-#####Deferred和Promise
+##### Deferred和Promise
 这里的`Deferred`指具有js延迟的一类库（Library）
 
 1.Deferred和Promise的关系
@@ -1111,7 +1117,7 @@ Promise的构造函数，以及被 then 调用执行的函数基本上都可以�
 
 >换句话说，Promise代表了一个对象，这个对象的状态现在还不确定，但是未来一个时间点它的状态要么变为正常值（FulFilled），要么变为异常值（Rejected）；而Deferred对象表示了一个处理还没有结束的这种事实，在它的处理结束的时候，可以通过Promise来取得处理结果。
 
-####使用Promise.race和delay取消XHR请求
+#### 使用Promise.race和delay取消XHR请求
 
 >当然XHR有一个 timeout 属性，使用该属性也可以简单实现超时功能，但是为了能支持多个XHR同时超时或者其他功能，我们采用了容易理解的异步方式在XHR中通过超时来实现取消正在进行中的操作。
 
@@ -1465,7 +1471,7 @@ delayPromise(ms) 返回一个在经过了参数指定的毫秒数后进行onFulf
 
 Promise能非常灵活的进行处理流程的控制，为了充分发挥它的能力，我们需要注意不要将一个函数写的过于庞大冗长，而是应该将其分割成更小更简单的处理，并对之前JavaScript中提到的机制进行更深入的了解。
 
-####什么是 Promise.prototype.done ？
+#### 什么是 Promise.prototype.done ？
 
 >then和done的异常区别
 
@@ -1656,7 +1662,7 @@ ES6 Promises 本身提供的功能并不是特别多。 因此，我想很多时
 
 我们好不容易将异步处理统一采用Promise进行统一处理，但是如果做过头了，也会将系统变得特别复杂，因此，保持风格的统一是Promise作为抽象对象非常重要的部分。
 
-####Promise和方法链（method chain）
+#### Promise和方法链（method chain）
 
 在Promise中你可以将 then 和 catch 等方法连在一起写。这非常像DOM或者jQuery中的方法链。
 
@@ -1955,7 +1961,7 @@ ES6 Promises只提供了一些Core级别的功能。 因此，我们也许需要
 
 至于什么情况下应该使用Promise，什么时候不该使用Promise，并不是本书要讨论的目的， 我们需要牢记的是不要什么都用Promise去实现，我想最好根据自己的具体目的和情况，来考虑是应该使用Promise还是其它方法。
 
-####使用Promise进行顺序（sequence）处理
+#### 使用Promise进行顺序（sequence）处理
 在第2章 Promise.all 中，我们已经学习了如何让多个promise对象同时开始执行的方法。
 
 但是 Promise.all 方法会同时运行多个promise对象，如果想进行在A处理完成之后再开始B的处理，对于这种顺序执行的话 Promise.all就无能为力了。
