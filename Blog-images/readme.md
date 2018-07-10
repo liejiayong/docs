@@ -1,1 +1,1 @@
-blog images
+# Store blog images.
