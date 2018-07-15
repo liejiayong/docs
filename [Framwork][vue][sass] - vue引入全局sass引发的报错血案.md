@@ -1,3 +1,7 @@
+---
+title: vue引入全局sass引发的报错血案
+---
+
 # 琐碎片语
 事情是发生在最近使用vue项目的时候使用sass作为css辅助开始的，因为之前使用习惯stylus都是一帆风顺的，而在这次项目里我在main.js 上引入全局sass文件突然报了一下错误，如下：
 ![vue引入sass全局](https://github.com/liejiayong/docs/blob/master/Blog-images/vue%E5%BC%95%E5%85%A5%E5%85%A8%E5%B1%80sass%E5%BC%95%E5%8F%91%E7%9A%84%E6%8A%A5%E9%94%99%E8%A1%80%E6%A1%88-twicetech.top.png?raw=true)

@@ -1,18 +1,24 @@
-# 使用gulp+browser-sync搭建Sass自动化编译以及自动刷新所需要的插件
-## 按照gulp需求插件
-### 安装browser-sync（在命令行中输入）
+---
+title: gulp配置相关说明
+---
 
-	  npm install --save-dev browser-sync
+# 使用 gulp+browser-sync 搭建 Sass 自动化编译以及自动刷新所需要的插件
 
-如果网速比较慢，可以用下面的cnpm命令运行：
+## 按照 gulp 需求插件
 
-	  cnpm install --save-dev browser-sync
+### 安装 browser-sync（在命令行中输入）
+
+    npm install --save-dev browser-sync
+
+如果网速比较慢，可以用下面的 cnpm 命令运行：
+
+    cnpm install --save-dev browser-sync
 
 ### 下面列一些安装其它的插件，如需用到可以安装下面的这些插件
 
-   npm install --save-dev gulp-concat//js合并插件
+    npm install --save-dev gulp-concat//js 合并插件
 
-   npm install --save-dev gulp-uglify//js压缩插件
+    npm install --save-dev gulp-uglify//js 压缩插件
 
     npm install --save-dev gulp-cssnano//css压缩插件
 
@@ -24,30 +30,33 @@
 
     npm install --save-dev gulp merge-stream//在一个任务中使用多个文件来源
 
-### 搭建gulp环境
-#### 按装gulp
-1、安装全局gulp
+### 搭建 gulp 环境
+
+#### 按装 gulp
+
+1、安装全局 gulp
 
     npm install gulp -g
 
-2、初始化package.json
+2、初始化 package.json
 
-   npm init
+npm init
 
-3、在本项目安装引入的gulp
+3、在本项目安装引入的 gulp
 
     npm install gulp --save-dev
 
-4、在本项目按照sass相关插件
+4、在本项目按照 sass 相关插件
 
     npm install --save-dev gulp-sass
 
-5、本步骤按需求来按照，下面gulp相关插件可以搭建完整的css、js相关压缩
+5、本步骤按需求来按照，下面 gulp 相关插件可以搭建完整的 css、js 相关压缩
 
-   npm install --save-dev gulp-concat gulp-uglify gulp-cssnano gulp-imagemin gulp-htmlmin merge-stream
+npm install --save-dev gulp-concat gulp-uglify gulp-cssnano gulp-imagemin gulp-htmlmin merge-stream
 
-### 配置gulpfile.js
-在项目根目录中新建gulpfile.js文件（重要！！！文件名为固定不变的。）输入以下内容：
+### 配置 gulpfile.js
+
+在项目根目录中新建 gulpfile.js 文件（重要！！！文件名为固定不变的。）输入以下内容：
 
     const gulp = require('gulp'); //获取gulp
     const sass = require('gulp-sass');  //获取gulp

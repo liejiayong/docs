@@ -1,3 +1,7 @@
+---
+title: vue-router的一些要点
+---
+
 # [vue-router](https://router.vuejs.org/zh-cn/essentials/getting-started.html) 加速器
 ## 要点
 + 前端路由的核心:改变视图的同时不会向后端发出请求。因此未达到这目的，浏览器有两种支持：

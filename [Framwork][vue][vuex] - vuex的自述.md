@@ -1,9 +1,8 @@
-原文出自本人博客：
-[vuex的详细总结](http://www.twicetech.top/twicetech-top-vuex-detail-summary/ )
-[博主博客--兼乎](http://upload-images.jianshu.io/upload_images/2767489-8bc580db406e6728.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 "兼乎")
+---
+title: vuex的自述
+---
 
-
-#说在前面
+# 说在前面
 
 最近在使用vuex做项目，所以有了总结vuex的念头。于是在本天中午到晚上9点，我一直没有停过，为了能尽快将vuex的重点写出来。虽然本vuex文档还不够完整但暂时够用，最大缺点是没有写实战，只是总结了每个知识的的要点。回想一下，时间过得很多，new Boy() 之后时间更加紧迫，有时候分心乏术。到现在，使用vue也有一段时间了。老是想总结点有关vue的却老是在写一些vue相关的demo，从而没有了总结的时间。今天总结下定决定写点vue相关的，一方面巩固基数，一方面分享总结，同时本编偏理论和一些细节，后面一部分因为官方文档也挺实用的就直接摘抄Vuex官方文档。
 
@@ -11,38 +10,41 @@
 我们的敌人不是我们身外的黑暗，而是自己内心的黑暗，那就是我们的容易失望，我们的沮丧，我们的缺乏信心，耐心和细心，我们缺乏坚韧，轻言放弃，乃至自暴自弃。
 	不懂的要上官网看文档，不懂的看一次两次直到弄懂为止。
 
-#开讲
-##1.vue
+# 开讲
+## 1.vue
 vue是一个前端javascript写的渐进式框架，在组件化模块的时候主要无非是渲染数据、增强交互效果、拓展业务逻辑组件、组件分离要高内聚低耦合、分配管理路由，在这之后就是一个挂在在浏览器端的全局js模块。当然这是我的片面之词，详情请移步vue。
 	
-##2.Vuex 
+## 2.Vuex 
 
 可以这么通俗理解：vuex是一个挂载到vue的全局变量对象（store），而且store的 属性（state） 的 改变 只 能通过提交mutation来改变，使用Getter来映射store对象状态。另外 提交 同步事务 使用 mutation 的 commit， 分发 异步事务 使用 action 的 dispatch。同时使用 module 来方便管理 vuex模块 和 状态
 	
 	Vuex官方文档:https://vuex.vuejs.org/zh-cn/intro.html
 
-前方高能
-#是什么？
-#概念：
+>前方高能
+
+# 是什么？
+# 概念：
 状态管理模式，核心是一个store（仓库），包含 共享的 单一状态（state）树
 
-#为什么？
-##特点：
-1、一个 全局单例 模式管理，方便集中管理所有组件状态
-2、状态管理 是 响应式 的，且高效
-3、改变状态（state）的 唯一途径 是 显示提交commit（mutation）
-4、mutation->动作
+# 为什么？
+## 特点：
 
-#怎么样？
-##状态相应机制：
+1. 一个 全局单例 模式管理，方便集中管理所有组件状态
+2. 状态管理 是 响应式 的，且高效
+3. 改变状态（state）的 唯一途径 是 显示提交commit（mutation）
+4. mutation->动作
+
+# 怎么样？
+## 状态相应机制：
+
 ![vuex响应机制](https://vuex.vuejs.org/zh-cn/images/vuex.png "vuex响应机制")
 
 
-##使用技巧：
+## 使用技巧：
 
-1、因为状态储存是响应式，所以 读取状态的方法 最简单的方法是使用 计算属性（computed），但建议使用辅助函数获取状态
+1. 因为状态储存是响应式，所以 读取状态的方法 最简单的方法是使用 计算属性（computed），但建议使用辅助函数获取状态
 
-2、Action 类似于 mutation，不同在于：
+2. Action 类似于 mutation，不同在于：
 	Action 提交的是 mutation，而不是直接变更状态。
 	（
 		同步情况：Action -> 提交 mutation  ；  Mutation -> 提交 commit
@@ -51,12 +53,12 @@ vue是一个前端javascript写的渐进式框架，在组件化模块的时候�
 	Action 可以包含任意异步操作，而mutation 是同步事务。
 	（Action -> 异步  ；  Mutation -> 同步）
 
-3、使用action分发异步事务时：
+3. 使用action分发异步事务时：
 	一个 store.dispatch 在不同模块中可以触发多个 action 函数。
 	在这种情况下，只有当所有触发函数完成后，返回的 Promise 才会执行。
 
-##核心概念
-###1、state：单一状态树，可以认为是 store 的 状态变量（data）
+## 核心概念
+### 1、state：单一状态树，可以认为是 store 的 状态变量（data）
 使用辅助函数：
 获取状态：mapState
 	当映射的计算属性的名称与 state 的子节点名称相同时，使用数组传入
@@ -74,7 +76,8 @@ vue是一个前端javascript写的渐进式框架，在组件化模块的时候�
 	使用对象展开运算符将此对象 混入 到 外部对象 中
 	…mapState（{   }）
 	
-###2、Getter：可以认为是 store 的计算属性（computed）
+### 2、Getter：可以认为是 store 的计算属性（computed）
+
 接受参数
 	参数可以有state和getter本身
 
@@ -112,7 +115,7 @@ vue是一个前端javascript写的渐进式框架，在组件化模块的时候�
 		    ])
 		  }
 		
-###3、Mutation （ 同步 事务 ）：改变store状态的 唯一方式。
+### 3、Mutation （ 同步 事务 ）：改变store状态的 唯一方式。
 							类似于事件（Event）：每个 mutation 都有一个 字符串 的 事件类型 (type) 
 							和 一个 回调函数 (handler,改变状态的地方)
 接受参数
@@ -185,8 +188,8 @@ Mutation 需遵守 Vue 的响应规则
 Mutation 必须是同步函数（ 重点 ）
 	为了实现state实时跟踪，使用同步函数，也为了调试方便
 
-###4、Action （ 异步 事务 ）：用法类似于mutation，不同在于可以提交 异步事务（使用dispatch 时 提交异步），
-						     而且 是 提交 mutation 上的事件
+### 4、Action （ 异步 事务 ）：用法类似于mutation，不同在于可以提交 异步事务（使用dispatch 时 提交异步）， 而且 是 提交 mutation 上的事件
+
 接受参数
 	参数可以有多个。第一参数为接受一个与 store 实例具有相同方法和属性的 context 对象（因此你可以调用 context.commit 提交一个 mutation，或者通过 context.state 和 context.getters 来获取 state 和 getter），
 					及其他对象或属性（支持提交负荷Payload）
@@ -272,8 +275,8 @@ Mutation 必须是同步函数（ 重点 ）
 
 在组件中 分发 Action
 两种方法：
-1.使用 this.$store.dispatch('xxx') （支持载荷PayLoad）
-2.使用 mapActions 辅助函数 （支持载荷PayLoad）
+1. 使用 this.$store.dispatch('xxx') （支持载荷PayLoad）
+2. 使用 mapActions 辅助函数 （支持载荷PayLoad）
 	将组件中的 methods 映射为 store.commit 调用（需要在根节点注入 store）
 
 	如：
@@ -342,7 +345,7 @@ Mutation 必须是同步函数（ 重点 ）
 一个 store.dispatch 在不同模块中可以触发多个 action 函数。
 在这种情况下，只有当所有触发函数完成后，返回的 Promise 才会执行。
 
-###5.Module
+### 5.Module
 	由于使用单一状态树，应用的所有状态会集中到一个比较大的对象。当应用变得非常复杂时，store 对象就有可能变得相当臃肿。
 	
 	为了解决以上问题，Vuex 允许我们将 store 分割成模块（module）。每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块——从上至下进行同样方式的分割：
@@ -615,28 +618,32 @@ Mutation 必须是同步函数（ 重点 ）
 	}
 	
 	
-##项目结构
+## 项目结构
 Vuex 并不限制你的代码结构。但是，它规定了一些需要遵守的规则：
-	1. 应用层级的状态应该集中到单个 store 对象中。
-	2. 提交 mutation 是更改状态的唯一方法，并且这个过程是同步的。
-	3. 异步逻辑都应该封装到 action 里面。
+1. 应用层级的状态应该集中到单个 store 对象中。
+2. 提交 mutation 是更改状态的唯一方法，并且这个过程是同步的。
+3. 异步逻辑都应该封装到 action 里面。
 
 只要你遵守以上规则，如何组织代码随你便。如果你的 store 文件太大，只需将 action、mutation 和 getter 分割到单独的文件。
 对于大型应用，我们会希望把 Vuex 相关代码分割到模块中。下面是项目结构示例：
-    ├── index.html
-    ├── main.js
-    ├── api
-    │   └── ... # 抽取出API请求
-    ├── components
-    │   ├── App.vue
-    │   └── ...
-    └── store
-        ├── index.js          # 我们组装模块并导出 store 的地方
-        ├── actions.js        # 根级别的 action
-        ├── mutations.js      # 根级别的 mutation
-        └── modules
-            ├── cart.js       # 购物车模块
-            └── products.js   # 产品模块
+
+		├── index.html
+		├── main.js
+		├── api
+		│   └── ... # 抽取出API请求
+		├── components
+		│   ├── App.vue
+		│   └── ...
+		└── store
+				├── index.js          # 我们组装模块并导出 store 的地方
+				├── actions.js        # 根级别的 action
+				├── mutations.js      # 根级别的 mutation
+				└── modules
+						├── cart.js       # 购物车模块
+						└── products.js   # 产品模块
 
 
 
+原文出自本人博客：
+[vuex的详细总结](http://www.twicetech.top/twicetech-top-vuex-detail-summary/ )
+[博主博客--兼乎](http://upload-images.jianshu.io/upload_images/2767489-8bc580db406e6728.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 "兼乎")

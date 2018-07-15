@@ -1,37 +1,47 @@
-﻿查看所有文件（包括文件夹）
-dir /s
+﻿---
+title: doc命令操作适用总结
+---
 
-查看指定格式文件
-dir *.doc /s
+## 查看所有文件（包括文件夹）
 
-dir c:\baidu /s 命令，查看当前目录所有子目录的文件和文件夹
+    dir /s
 
-dir c:\baidu /w 命令，以紧凑方式显示文件和文件夹
+## 查看指定格式文件
 
-dir c:/baidu /p 命令，以分页方式显示
+    dir *.doc /s
+
+    dir c:\baidu /s 命令，查看当前目录所有子目录的文件和文件夹
+
+    dir c:\baidu /w 命令，以紧凑方式显示文件和文件夹
+
+    dir c:/baidu /p 命令，以分页方式显示
 
 
-操作：start 文件绝对路径
+## 操作：start 文件绝对路径
 例如：
-start C:\1.log
 
-还可以尝试以下的用法:
-浏览：type a.txt
-编辑：edit a.txt
+    start C:\1.log
+
+### 还可以尝试以下的用法:
+
+    浏览：type a.txt
+    编辑：edit a.txt
 
 
-创建文本
+## 创建文本
 
-echo>abc.txt
-echo>abc.doc
+    echo>abc.txt
+    echo>abc.doc
 
-修改文本
+## 修改文本
 
-copy con abc.txt
+    copy con abc.txt
 
-新建文件夹
+## 新建文件夹
 
-md filename
+    md filename
+
+## 实战
 
 cp [-adfilprsu] source(原文件) destination(目标文件)
 记录一些常用的：

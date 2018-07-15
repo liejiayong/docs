@@ -1,6 +1,6 @@
-/**
- * Created by Administrator on 2017/10/13.
- */
+---
+title: 正则表达式总结
+---
 
 # 正则表达式总结
 
@@ -18,18 +18,19 @@
 
 1.1 横向模糊匹配
 >一个正则可匹配的字符串的长度不是固定的，可以是多种情况的
-var regex = /ab{2,5}c/g
-var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
-console.log( string.match(regex) );
-// => ["abbc", "abbbc", "abbbbc", "abbbbbc"]
+
+        var regex = /ab{2,5}c/g
+        var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
+        console.log( string.match(regex) );
+        // => ["abbc", "abbbc", "abbbbc", "abbbbbc"]
 
 1.2 纵向模糊匹配
 >一个正则匹配的字符串，具体到某一位字符时，它可以不是某个确定的字符，可以有多种可能。
 ----------------------------------------------------------------
-var regex = /a[123]b/g;
-var string = "a0b a1b a2b a3b a4b";
-console.log( string.match(regex) );
-// => ["a1b", "a2b", "a3b"]
+        var regex = /a[123]b/g;
+        var string = "a0b a1b a2b a3b a4b";
+        console.log( string.match(regex) );
+        // => ["a1b", "a2b", "a3b"]
 ----------------------------------------------------------------
 
 2. 字符组 []
